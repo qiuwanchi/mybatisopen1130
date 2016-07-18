@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.secoo.mapper.OrdersMapper">
+
+	<resultMap type="com.secoo.entity.Orders" id="findAllOrdersResultMap">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createTime"/>
+		<result column="note" property="note"/>
+	</resultMap>
+	<select id="findAllOrders" resultMap="findAllOrdersResultMap">
+		SELECT * FROM orders 
+	</select>
+
+	<resultMap type="com.secoo.entity.Orders" id="AllOrdersResultMap">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createTime"/>
+		<result column="note" property="note"/>
+		
+		<association property="user" column="user_id" javaType="com.secoo.entity.User" fetchType="lazy" select="com.secoo.mapper.UserMapper.findUserById">
+			<id column="id" property="id"/>
+			<result column="username" property="userName"/>
+			<result column="birthday" property="birthday"/>
+			<result column="sex" property="sex"/>
+			<result column="address" property="address"/>
+		</association>
+	</resultMap>
+	
+	<select id="findAllOrdersResultMap" resultMap="AllOrdersResultMap">
+		SELECT orders.* FROM orders
+	</select>
+</mapper>
